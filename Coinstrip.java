@@ -11,10 +11,12 @@ class CoinStrip{
   public String player = "Player 1: "; //addresses the correct player
   public Boolean playing; //tells whether the game is being played
 
+  //main method creates a new game
   public static void main(String[] args){
     CoinStrip coinstrip = new CoinStrip();
   }
 
+  //sets up the game and continues moves until there s a winner
   public CoinStrip(){
     findInfo();
     setUpBoard();
@@ -29,11 +31,13 @@ class CoinStrip{
 
   //find numSpaces and numCoins
   public void findInfo(){
+    //asks user for number of spaces/coins
     Scanner in = new Scanner(System.in);
     System.out.println("How many squares do you want to play with (choose 5-15)?");
     numSpaces = in.nextInt();
     System.out.println("How many coins do you want to play with (choose 3-10)?");
     numCoins = in.nextInt();
+    //if the choices are not playable, explains why and tries again
     if( numSpaces<5 || numSpaces>15){
       System.out.println("Invalid number of spaces.");
       findInfo();
@@ -64,6 +68,7 @@ class CoinStrip{
         n--;
       }
     }
+    //if the board is unplayable, try again
     playing = isPlaying();
     if (! playing){
       setUpBoard();
@@ -116,21 +121,25 @@ class CoinStrip{
 
   //checks whether a move is legal
   public Boolean isLegal( int moveFrom, int howFar ){
+    //sees if coin is a coin
     if (spaces[moveFrom] == 0){
       System.out.println("That's not a coin. Try again!");
       return false;
     }
+    //coin must move to the left
     if (! (howFar > 0)){
-      System.out.println("You have to move the coin.");
+      System.out.println("You have to move the coin to the left.");
       return false;
     }
+    //coin cannot leave board
     if(moveFrom-howFar<0){
       System.out.println("The coin has to stay on the board. Try again!");
       return false;
     }
+    //coin can't pass other coins
     for( int n=1; n<howFar+1; n++){
       if (! (spaces[moveFrom - howFar] == 0)){
-        System.out.println("The coin you move can't cross any other coins. Try again!");
+        System.out.println("The coin you move can't pass any other coins. Try again!");
         return false;
       }
     }
